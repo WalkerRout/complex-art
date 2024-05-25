@@ -6,20 +6,27 @@ use crate::Renderable;
 pub struct Julia;
 
 impl Julia {
-  const ITERATIONS: usize = 255;
+  const ITERATIONS: usize = 900;
 
   #[inline(always)]
   fn colour(i: usize) -> Rgb<u8> {
+    let i: u8 = i.try_into().unwrap_or(u8::MAX);
+    let min = (i < 20) as u8;
+    let max = (i > 150) as u8;
     Rgb([
-      (i / 200) as u8 * 255,
-      (i / 30) as u8 * 10,
-      (i / 10) as u8 * 3,
+      ((-(i as f64/9.0 - 255.0/18.0).powf(2.0) + 165.0) as u8)
+        .saturating_sub(max*20)
+        .saturating_add(min*i.saturating_pow(2)),
+      (i.saturating_div(4) * i.ilog10() as u8)
+        .saturating_add(min*3*i)
+        .saturating_sub(max*100),
+      (i.saturating_pow(3).ilog10() as u8),
     ])
   }
 
   #[inline(always)]
   fn default_colour() -> Rgb<u8> {
-    Rgb([10; 3])
+    Rgb([60, 10, 10])
   }
 }
 
@@ -35,7 +42,11 @@ impl Renderable for Julia {
 
   #[inline]
   fn complex_to_colour(mut z: Complex<f64>) -> Rgb<u8> {
-    let c = Complex::new(-0.802, 0.161);
+    // -0.802+0.156i
+    // -0.4+0.60i
+    // -0.17+0.657i
+    // -1.38+0.0i
+    let c = Complex::new(-0.05, 0.68);
     for i in 0..Self::ITERATIONS {
       if z.norm() > 2.0 {
         return Self::colour(i);
