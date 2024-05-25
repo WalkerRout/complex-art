@@ -5,7 +5,7 @@ use complex_art::julia::Julia;
 use complex_art::mandelbrot::Mandelbrot;
 
 fn main() {
-  let (width, height) = (10000, 10000);
+  let (width, height) = (30000, 30000);
   let image_buffer = generate_image::<Julia>(width, height);
   image_buffer
     .save("fractal.png")

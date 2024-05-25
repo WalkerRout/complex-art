@@ -1,5 +1,6 @@
 use image::{ImageBuffer, Rgb};
 use nalgebra::Complex;
+use rayon::iter::ParallelIterator;
 
 pub mod julia;
 pub mod mandelbrot;
@@ -14,9 +15,11 @@ where
   R: Renderable,
 {
   let mut buffer = ImageBuffer::new(width, height);
-  for (x, y, px) in buffer.enumerate_pixels_mut() {
-    let complex = R::pixel_to_complex(width, height, x, y);
-    *px = R::complex_to_colour(complex);
-  }
+  buffer
+    .par_enumerate_pixels_mut()
+    .for_each(|(x, y, px)| {
+      let complex = R::pixel_to_complex(width, height, x, y);
+      *px = R::complex_to_colour(complex);
+    });
   buffer
 }
