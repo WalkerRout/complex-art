@@ -11,9 +11,9 @@ impl Julia {
   #[inline(always)]
   fn colour(i: usize) -> Rgb<u8> {
     Rgb([
-      ((i / 200) as u8 * 255),
-      ((i / 30) as u8 * 10),
-      ((i / 10) as u8 * 3),
+      (i / 200) as u8 * 255,
+      (i / 30) as u8 * 10,
+      (i / 10) as u8 * 3,
     ])
   }
 
