@@ -11,9 +11,9 @@ impl Julia {
   #[inline(always)]
   fn colour(i: usize) -> Rgb<u8> {
     Rgb([
-      (i / 200) as u8 * 255,
-      (i / 30) as u8 * 10,
-      (i / 10) as u8 * 3,
+      ((i / 200) as u8 * 255),
+      ((i / 30) as u8 * 10),
+      ((i / 10) as u8 * 3),
     ])
   }
 
@@ -35,7 +35,7 @@ impl Renderable for Julia {
 
   #[inline]
   fn complex_to_colour(mut z: Complex<f64>) -> Rgb<u8> {
-    let c = Complex::new(-0.8, 0.156);
+    let c = Complex::new(-0.802, 0.161);
     for i in 0..Self::ITERATIONS {
       if z.norm() > 2.0 {
         return Self::colour(i);

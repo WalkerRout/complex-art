@@ -15,11 +15,9 @@ where
   R: Renderable,
 {
   let mut buffer = ImageBuffer::new(width, height);
-  buffer
-    .par_enumerate_pixels_mut()
-    .for_each(|(x, y, px)| {
-      let complex = R::pixel_to_complex(width, height, x, y);
-      *px = R::complex_to_colour(complex);
-    });
+  buffer.par_enumerate_pixels_mut().for_each(|(x, y, px)| {
+    let complex = R::pixel_to_complex(width, height, x, y);
+    *px = R::complex_to_colour(complex);
+  });
   buffer
 }
